@@ -7,7 +7,7 @@ import tensorflow as tf
 from flearn.utils.model_utils import read_data
 
 # GLOBAL PARAMETERS
-OPTIMIZERS = ['fedavg', 'fedprox', 'feddane', 'fedddane', 'fedsgd', 'fedprox_origin']
+OPTIMIZERS = ['fedavg', 'fedprox', 'feddane', 'fedddane', 'fedsgd', 'fedprox_origin', "fedprox_auto_mu"]
 DATASETS = ['sent140', 'nist', 'shakespeare', 'mnist',
             'synthetic_iid', 'synthetic_0_0', 'synthetic_0.5_0.5', 'synthetic_1_1']  # NIST is EMNIST in the paepr
 
@@ -35,7 +35,7 @@ def read_options():
                         help='name of dataset;',
                         type=str,
                         choices=DATASETS,
-                        default='nist')
+                        default='mnist')
     parser.add_argument('--model',
                         help='name of model;',
                         type=str,

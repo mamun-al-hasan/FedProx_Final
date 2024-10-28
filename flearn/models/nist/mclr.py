@@ -9,14 +9,12 @@ from flearn.utils.tf_utils import process_grad
 import keras
 from keras import regularizers
 
-
 class Model(object):
+
     def __init__(self, num_classes, optimizer, seed=1):
 
-        # params
         self.num_classes = num_classes
 
-        # create computation graph
         self.graph = tf.Graph()
         with self.graph.as_default():
             tf.random.set_seed(123 + seed)
@@ -25,7 +23,6 @@ class Model(object):
             self.saver = tf.compat.v1.train.Saver()
         self.sess = tf.compat.v1.Session(graph=self.graph)
 
-        # find memory footprint and compute cost of the model
         self.size = graph_size(self.graph)
         with self.graph.as_default():
             self.sess.run(tf.compat.v1.global_variables_initializer())
@@ -34,9 +31,9 @@ class Model(object):
             self.flops = tf.compat.v1.profiler.profile(self.graph, run_meta=metadata, cmd='scope', options=opts).total_float_ops
 
     def create_model(self, optimizer):
-        """Model function for Logistic Regression."""
         features = tf.compat.v1.placeholder(tf.float32, shape=[None, 784], name='features')
         labels = tf.compat.v1.placeholder(tf.int64, shape=[None, ], name='labels')
+
         logits_input = keras.layers.Dense(units=self.num_classes,
                                           kernel_regularizer=regularizers.L2(0.001))
         logits = logits_input(features)
@@ -81,20 +78,21 @@ class Model(object):
             for X, y in batch_data(data, batch_size):
                 with self.graph.as_default():
                     self.sess.run(self.train_op, feed_dict={self.features: X, self.labels: y})
-        solution = self.get_params()
+        soln = self.get_params()
         comp = num_epochs * (len(data['y']) // batch_size) * batch_size * self.flops
-        return solution, comp
+        return soln, comp
 
     def solve_iters(self, data, num_iters=1, batch_size=32):
 
         for X, y in batch_data_multiple_iters(data, batch_size, num_iters):
             with self.graph.as_default():
                 self.sess.run(self.train_op, feed_dict={self.features: X, self.labels: y})
-        solution = self.get_params()
+        soln = self.get_params()
         comp = 0
-        return solution, comp
+        return soln, comp
 
     def test(self, data):
+
         with self.graph.as_default():
             tot_correct, loss = self.sess.run([self.eval_metric_ops, self.loss],
                                               feed_dict={self.features: data['x'], self.labels: data['y']})
