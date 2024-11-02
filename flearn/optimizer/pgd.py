@@ -6,23 +6,25 @@ from tensorflow.python.training import optimizer
 import tensorflow as tf
 
 class PerturbedGradientDescent(optimizer.Optimizer):
-    """Implementation of Perturbed Gradient Descent, i.e., FedProx optimizer"""
-
     def __init__(self, learning_rate=0.001, mu=0.01, use_locking=False, name="PGD"):
         super(PerturbedGradientDescent, self).__init__(use_locking, name)
         self._lr = learning_rate
         self._mu = mu
 
-        # Tensor versions of the constructor arguments, created in _prepare().
         self._lr_t = None
         self._mu_t = None
+
+    def set_mu(self, mu):
+        self._mu = mu
+
+    def get_mu(self):
+        return self._mu
 
     def _prepare(self):
         self._lr_t = ops.convert_to_tensor(self._lr, name="learning_rate")
         self._mu_t = ops.convert_to_tensor(self._mu, name="prox_mu")
 
     def _create_slots(self, var_list):
-        # Create slots for the global solution.
         for v in var_list:
             self._zeros_slot(v, "vstar", self._name)
 

@@ -1,5 +1,10 @@
-data/
+data/nist
+data/shakespeare
+data/mnist/data
+data/synthetic_0.5_0.5/data
+data/synthetic_0_0/data
+data/synthetic_1_1/data
+data/synthetic_iid/data
 .idea/
-/utils/
 venv/
  

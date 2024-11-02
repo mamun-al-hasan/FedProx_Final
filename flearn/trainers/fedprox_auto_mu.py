@@ -13,14 +13,12 @@ class Server(BaseFederated):
         self.inner_opt = PerturbedGradientDescent(params['learning_rate'], params['mu'])
         super(Server, self).__init__(params, learner, dataset)
         
-        # Initialize parameters for auto-tuning of μ
         self.mu = params['mu']
-        self.eta_mu = 0.01  # Learning rate for updating μ
+        self.eta_mu = params['auto_tune']  # Learning rate for updating μ
         self.G_mu = 0  # Initial accumulated gradient for μ
         self.epsilon = 1e-8  # Small constant to avoid division by zero in AdaGrad
 
     def train(self):
-        '''Train using Federated Proximal with auto-tuning for μ'''
         print('Training with {} workers ---'.format(self.clients_per_round))
 
         for i in range(self.num_rounds):
@@ -61,7 +59,9 @@ class Server(BaseFederated):
             grad_mu = gradient_diff
             self.G_mu += grad_mu ** 2
             self.mu += self.eta_mu * grad_mu / (np.sqrt(self.G_mu) + self.epsilon)
-            tqdm.write(f'Updated μ: {self.mu}, Gradient difference: {gradient_diff}')
+            # print eta_mu
+            tqdm.write(f'learning rate of μ: {self.eta_mu}')
+            tqdm.write(f'Gradient difference: {gradient_diff}')
 
             indices, selected_clients = self.select_clients(i, num_clients=self.clients_per_round)  # uniform sampling
             np.random.seed(i)  # make sure that the stragglers are the same for FedProx and FedAvg
@@ -71,7 +71,8 @@ class Server(BaseFederated):
             csolns = []  # buffer for receiving client solutions
 
             # Set μ in the optimizer
-            self.inner_opt.mu = self.mu
+            self.inner_opt.set_mu(self.mu)
+            # tqdm.write(f'Using μ: {self.inner_opt.get_mu()}')
             self.inner_opt.set_params(self.latest_model, self.client_model)
 
             # Perform local updates and aggregate solutions

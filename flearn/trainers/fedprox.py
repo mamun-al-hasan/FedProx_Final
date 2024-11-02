@@ -14,11 +14,9 @@ class Server(BaseFederated):
         super(Server, self).__init__(params, learner, dataset)
 
     def train(self):
-        '''Train using Federated Proximal'''
         print('Training with {} workers ---'.format(self.clients_per_round))
 
         for i in range(self.num_rounds):
-            # test model
             if i % self.eval_every == 0:
                 stats = self.test()  # have set the latest model for all clients
                 stats_train = self.train_error_and_loss()
