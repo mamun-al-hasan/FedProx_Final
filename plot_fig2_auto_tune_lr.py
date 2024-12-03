@@ -1,96 +1,126 @@
-import os, sys
+import os
+import sys
 import re
 import matplotlib.pyplot as plt
-import matplotlib
 import numpy as np
 from matplotlib import rcParams
-from mpl_toolkits.axisartist.axislines import Subplot
-
-matplotlib.rc('xtick', labelsize=17)
-matplotlib.rc('ytick', labelsize=17)
-
 
 def parse_log(file_name):
-    rounds = []
-    accu = []
-    loss = []
-    sim = []
+    """Parse training log file to extract metrics."""
+    data = {'rounds': [], 'accuracy': [], 'loss': [], 'gradient_diff': []}
+    
+    patterns = {
+        'train_round': r'At round (.*) training accuracy: (.*)',
+        'test_accuracy': r'At round (.*) accuracy: (.*)',
+        'train_loss': r'At round (.*) training loss: (.*)',
+        'grad_diff': r'gradient difference: (.*)'
+    }
+    
+    with open(file_name, 'r') as f:
+        for line in f:
+            if match := re.search(patterns['train_round'], line, re.M | re.I):
+                data['rounds'].append(int(match.group(1)))
+            elif match := re.search(patterns['test_accuracy'], line, re.M | re.I):
+                data['accuracy'].append(float(match.group(2)))
+            elif match := re.search(patterns['train_loss'], line, re.M | re.I):
+                data['loss'].append(float(match.group(2)))
+            elif match := re.search(patterns['grad_diff'], line, re.M | re.I):
+                data['gradient_diff'].append(float(match.group(1)))
+    
+    return data
 
-    for line in open(file_name, 'r'):
-        search_train_accu = re.search(r'At round (.*) training accuracy: (.*)', line, re.M | re.I)
-        if search_train_accu:
-            rounds.append(int(search_train_accu.group(1)))
-        else:
-            search_test_accu = re.search(r'At round (.*) accuracy: (.*)', line, re.M | re.I)
-            if search_test_accu:
-                accu.append(float(search_test_accu.group(2)))
-
-        search_loss = re.search(r'At round (.*) training loss: (.*)', line, re.M | re.I)
-        if search_loss:
-            loss.append(float(search_loss.group(2)))
-
-        search_loss = re.search(r'gradient difference: (.*)', line, re.M | re.I)
-        if search_loss:
-            sim.append(float(search_loss.group(1)))
-
-    return rounds, sim, loss, accu
-
-
-idx = 0
-f = plt.figure(figsize=[30, 10])
-
-learning_rates = ["0.001", "0.005", "0.01", "0.1"]
-colors = ["#17becf", "#e377c2", "#ff7f0e", "#9467bd"]
-data_types = ["synthetic_iid", "synthetic_0_0", "synthetic_0.5_0.5", "synthetic_1_1"]
-
-for data_type in data_types:
-    ax = plt.subplot(1, 4, idx + 1)
-    idx += 1
-
+def create_single_plot(data_type, metric_type='loss'):
+    """Create a plot for a single dataset."""
+    # Set basic style parameters
+    plt.style.use('classic')
+    rcParams['axes.grid'] = True
+    rcParams['grid.alpha'] = 0.3
+    
+    fig = plt.figure(figsize=[10, 8])
+    ax = plt.subplot(111)
+    
+    learning_rates = ["0.1", "0.2", "0.5", "1"]
+    colors = ["#17becf", "#e377c2", "#ff7f0e", "#9467bd"]
+    
+    metric_configs = {
+        'loss': {'label': 'Training Loss', 'key': 'loss'},
+        'accuracy': {'label': 'Testing Accuracy', 'key': 'accuracy'},
+        'gradient': {'label': 'Variance of Local Grad.', 'key': 'gradient_diff'}
+    }
+    
+    max_values = []  # Store maximum values for the metric
+    
     for lr_idx, lr in enumerate(learning_rates):
-        filename = f"log_synthetic/auto_tune_lr_{lr}_{data_type}_client10_epoch20_mu1"
-        rounds, sim, losses, test_accuracies = parse_log(filename)
+        filename = f"log_synthetic/auto_tune_lr_{lr}_{data_type}_client10_epoch20_mu_changing"
+        try:
+            data = parse_log(filename)
+            
+            metric_key = metric_configs[metric_type]['key']
+            metric_data = data[metric_key]
+            max_values.append(max(metric_data))  # Store maximum value
+            rounds = data['rounds'][:len(metric_data)]
+            
+            plt.plot(np.asarray(rounds), np.asarray(metric_data),
+                    '--' if lr_idx % 2 == 0 else '-',
+                    linewidth=3.0,
+                    label=f'mu=1, E=20, lr={lr}',
+                    color=colors[lr_idx])
+        except FileNotFoundError:
+            print(f"Warning: Could not find file {filename}")
+            continue
+    
+    fixed_mu_filename = f"log_synthetic/{data_type}_client10_epoch20_mu1"
 
-        if sys.argv[1] == 'loss':
-            plt.plot(np.asarray(rounds[:len(losses)]), np.asarray(losses),
-                     '--' if lr_idx % 2 == 0 else '-',
-                     linewidth=3.0,
-                     label=f'mu=1, E=20, lr={lr}',
-                     color=colors[lr_idx])
-
-        elif sys.argv[1] == 'accuracy':
-            plt.plot(np.asarray(rounds[:len(test_accuracies)]), np.asarray(test_accuracies),
-                     '--' if lr_idx % 2 == 0 else '-',
-                     linewidth=3.0,
-                     label=f'mu=1, E=20, lr={lr}',
-                     color=colors[lr_idx])
-        else:
-            plt.plot(np.asarray(rounds[:len(sim)]), np.asarray(sim),
-                     '--' if lr_idx % 2 == 0 else '-',
-                     linewidth=3.0,
-                     label=f'mu=1, E=20, lr={lr}',
-                     color=colors[lr_idx])
-
+    try:
+        fixed_mu_data = parse_log(fixed_mu_filename)
+        fixed_mu_metric = fixed_mu_data[metric_configs[metric_type]['key']]
+        plt.plot(np.asarray(fixed_mu_data['rounds'][:len(fixed_mu_metric)]),
+                 np.asarray(fixed_mu_metric),
+                 '-',
+                 linewidth=3.0,
+                 label='mu=1, E=20',
+                 color='#2ca02c')
+    except FileNotFoundError:
+        print(f"Warning: Could not find file {fixed_mu_filename}")
+    
     plt.xlabel("# Rounds", fontsize=22)
+    plt.ylabel(metric_configs[metric_type]['label'], fontsize=22)
+    plt.title(f"{data_type} - {metric_configs[metric_type]['label']}", fontsize=22)
     plt.xticks(fontsize=17)
     plt.yticks(fontsize=17)
+    
+    # Style the plot
+    for spine in ax.spines.values():
+        spine.set_color('#dddddd')
+    
+    plt.legend(fontsize=16, loc='best')
+    plt.tight_layout()
+    
+    # Create output directory if it doesn't exist
+    os.makedirs('plots', exist_ok=True)
+    
+    # Create filename with all information
+    lr_string = '_'.join(learning_rates)
+    max_metric = max(max_values) if max_values else 0
+    min_metric = min(metric_data) if metric_data else 0
+    
+    output_file = (f"plots/{data_type}_{metric_type}_"
+                  f"max_{max_metric:.3f}_min_{min_metric:.3f}_"
+                  f"lr_{lr_string}.png")
+    
+    fig.savefig(output_file, bbox_inches='tight', dpi=300)
+    plt.close(fig)  # Close the figure to free memory
+    return output_file
 
-    if idx == 1:
-        if sys.argv[1] == 'loss':
-            plt.ylabel('Training Loss', fontsize=22)
-        elif sys.argv[1] == 'accuracy':
-            plt.ylabel('Testing Accuracy', fontsize=22)
-        else:
-            plt.ylabel("Variance of Local Grad.", fontsize=22)
-
-    plt.title(data_type, fontsize=22)
-    ax.tick_params(color='#dddddd')
-    ax.spines['bottom'].set_color('#dddddd')
-    ax.spines['top'].set_color('#dddddd')
-    ax.spines['right'].set_color('#dddddd')
-    ax.spines['left'].set_color('#dddddd')
-
-    if idx == 4:
-        plt.legend(fontsize=22)
-
-f.savefig("Learning Rate Comparison" + sys.argv[1] + ".png")
+if __name__ == "__main__":
+    if len(sys.argv) != 2 or sys.argv[1] not in ['loss', 'accuracy', 'gradient']:
+        print("Usage: python script.py [loss|accuracy|gradient]")
+        sys.exit(1)
+    
+    data_types = ["synthetic_iid", "synthetic_0_0", "synthetic_0.5_0.5", "synthetic_1_1"]
+    metric_type = sys.argv[1]
+    
+    print(f"Generating plots for {metric_type}...")
+    for data_type in data_types:
+        output_file = create_single_plot(data_type, metric_type)
+        print(f"Created: {output_file}")

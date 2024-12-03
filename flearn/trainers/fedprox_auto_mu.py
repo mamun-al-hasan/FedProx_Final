@@ -15,7 +15,7 @@ class Server(BaseFederated):
         
         self.mu = params['mu']
         self.eta_mu = params['auto_tune']  # Learning rate for updating μ
-        self.G_mu = 0  # Initial accumulated gradient for μ
+        self.G_mu = 0  # I nitial accumulated gradient for μ
         self.epsilon = 1e-8  # Small constant to avoid division by zero in AdaGrad
 
     def train(self):
@@ -53,14 +53,15 @@ class Server(BaseFederated):
             gradient_diff = 0
             for idx in range(len(self.clients)):
                 gradient_diff += np.sum(np.square(global_grads - local_grads[idx]))
-            gradient_diff /= len(self.clients)
+            gradient_diff = gradient_diff * 1.0 / len(self.clients)
             
             # Auto-tune μ using AdaGrad
             grad_mu = gradient_diff
             self.G_mu += grad_mu ** 2
-            self.mu += self.eta_mu * grad_mu / (np.sqrt(self.G_mu) + self.epsilon)
+            self.mu += self.eta_mu * grad_mu / (np.sqrt(self.G_mu + self.epsilon) )
             # print eta_mu
             tqdm.write(f'learning rate of μ: {self.eta_mu}')
+            tqdm.write(f'Using μ: {self.mu}')
             tqdm.write(f'Gradient difference: {gradient_diff}')
 
             indices, selected_clients = self.select_clients(i, num_clients=self.clients_per_round)  # uniform sampling
@@ -72,7 +73,7 @@ class Server(BaseFederated):
 
             # Set μ in the optimizer
             self.inner_opt.set_mu(self.mu)
-            # tqdm.write(f'Using μ: {self.inner_opt.get_mu()}')
+            tqdm.write(f'Using μ: {self.inner_opt.get_mu()}')
             self.inner_opt.set_params(self.latest_model, self.client_model)
 
             # Perform local updates and aggregate solutions

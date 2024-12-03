@@ -16,9 +16,11 @@ class PerturbedGradientDescent(optimizer.Optimizer):
 
     def set_mu(self, mu):
         self._mu = mu
+        self._mu_t = ops.convert_to_tensor(self._mu, name="prox_mu")
 
     def get_mu(self):
-        return self._mu
+        #convert to numpy and return
+        return self._mu_t.numpy()
 
     def _prepare(self):
         self._lr_t = ops.convert_to_tensor(self._lr, name="learning_rate")
