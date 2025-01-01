@@ -58,11 +58,15 @@ class Server(BaseFederated):
             # Auto-tune μ using AdaGrad
             grad_mu = gradient_diff
             self.G_mu += grad_mu ** 2
-            self.mu += self.eta_mu * grad_mu / (np.sqrt(self.G_mu + self.epsilon) )
+            mu_prev = self.inner_opt.get_mu()
+            self.mu = float(mu_prev) + (self.eta_mu * grad_mu / (np.sqrt(self.G_mu + self.epsilon) ))
             # print eta_mu
             tqdm.write(f'learning rate of μ: {self.eta_mu}')
             tqdm.write(f'Using μ: {self.mu}')
             tqdm.write(f'Gradient difference: {gradient_diff}')
+
+            self.inner_opt.set_mu(self.mu)
+            # tqdm.write(f'Using μ: {self.inner_opt.get_mu()}')
 
             indices, selected_clients = self.select_clients(i, num_clients=self.clients_per_round)  # uniform sampling
             np.random.seed(i)  # make sure that the stragglers are the same for FedProx and FedAvg
@@ -72,14 +76,14 @@ class Server(BaseFederated):
             csolns = []  # buffer for receiving client solutions
 
             # Set μ in the optimizer
-            self.inner_opt.set_mu(self.mu)
-            tqdm.write(f'Using μ: {self.inner_opt.get_mu()}')
+            
             self.inner_opt.set_params(self.latest_model, self.client_model)
 
             # Perform local updates and aggregate solutions
             for idx, c in enumerate(selected_clients.tolist()):
                 # communicate the latest model
                 c.set_params(self.latest_model)
+
 
                 total_iters = int(self.num_epochs * c.num_samples / self.batch_size) + 2  # randint(low,high)=[low,high)
 
