@@ -1,0 +1,869 @@
+Arguments:
+	       batch_size : 10
+	clients_per_round : 10
+	          dataset : mnist
+	     drop_percent : 0.0
+	       eval_every : 1
+	    learning_rate : 0.01
+	            model : mclr
+	     model_params : (10,)
+	               mu : 4.0
+	       num_epochs : 20
+	        num_iters : 1
+	       num_rounds : 200
+	        optimizer : fedprox
+	             seed : 0
+Using Federated prox to Train
+
+=========================Options=============================
+-max_depth                  10000
+-min_bytes                  0
+-min_peak_bytes             0
+-min_residual_bytes         0
+-min_output_bytes           0
+-min_micros                 0
+-min_accelerator_micros     0
+-min_cpu_micros             0
+-min_params                 0
+-min_float_ops              1
+-min_occurrence             0
+-step                       -1
+-order_by                   float_ops
+-account_type_regexes       .*
+-start_name_regexes         .*
+-trim_name_regexes          
+-show_name_regexes          .*
+-hide_name_regexes          
+-account_displayed_op_only  true
+-select                     float_ops
+-output                     stdout:
+
+==================Model Analysis Report======================
+
+Doc:
+scope: The nodes in the model graph are organized by their names, which is hierarchical like filesystem.
+flops: Number of float operations. Note: Please read the implementation for the math behind it.
+
+Profile:
+node name | # float_ops
+_TFProfRoot (--/47.08k flops)
+  dense/kernel/Initializer/stateless_random_uniform (7.84k/15.68k flops)
+    dense/kernel/Initializer/stateless_random_uniform/mul (7.84k/7.84k flops)
+    dense/kernel/Initializer/stateless_random_uniform/sub (1/1 flops)
+  PGD/update_dense/kernel/add (7.84k/7.84k flops)
+  PGD/update_dense/kernel/mul (7.84k/7.84k flops)
+  PGD/update_dense/kernel/mul_1 (7.84k/7.84k flops)
+  PGD/update_dense/kernel/sub (7.84k/7.84k flops)
+  PGD/update_dense/bias/add (10/10 flops)
+  PGD/update_dense/bias/mul (10/10 flops)
+  PGD/update_dense/bias/mul_1 (10/10 flops)
+  PGD/update_dense/bias/sub (10/10 flops)
+  gradients/sparse_softmax_cross_entropy_loss/value_grad/Neg (1/1 flops)
+  gradients/sparse_softmax_cross_entropy_loss/value_grad/mul (1/1 flops)
+  sparse_softmax_cross_entropy_loss/num_present/Equal (1/1 flops)
+
+======================End of Report==========================
+1000 Clients in Total
+Training with 10 workers ---
+At round 0 accuracy: 0.12562677869630032
+At round 0 training accuracy: 0.12760230883974316
+At round 0 training loss: 2.785880700883501
+gradient difference: 89.47495366335541
+At round 1 accuracy: 0.26738040384876
+At round 1 training accuracy: 0.26540307412932096
+At round 1 training loss: 2.292627624919484
+gradient difference: 80.18043741195147
+At round 2 accuracy: 0.3950399783168451
+At round 2 training accuracy: 0.39806407678837796
+At round 2 training loss: 2.017108297043988
+gradient difference: 72.41266746327497
+At round 3 accuracy: 0.47540317116140396
+At round 3 training accuracy: 0.4815325248070562
+At round 3 training loss: 1.767404721430964
+gradient difference: 66.26549345411536
+At round 4 accuracy: 0.5194470795500745
+At round 4 training accuracy: 0.5219696478370841
+At round 4 training loss: 1.6442750973869904
+gradient difference: 61.66005318738365
+At round 5 accuracy: 0.5759588020056918
+At round 5 training accuracy: 0.5751670017510864
+At round 5 training loss: 1.492163424935873
+gradient difference: 56.99277183702198
+At round 6 accuracy: 0.5977774766228486
+At round 6 training accuracy: 0.5967150917698942
+At round 6 training loss: 1.387939985848036
+gradient difference: 54.440504599030106
+At round 7 accuracy: 0.6197316709581244
+At round 7 training accuracy: 0.618960373565082
+At round 7 training loss: 1.3310654203921055
+gradient difference: 52.833906189087834
+At round 8 accuracy: 0.6560509554140127
+At round 8 training accuracy: 0.6542253064401063
+At round 8 training loss: 1.206953804393719
+gradient difference: 49.41167408663703
+At round 9 accuracy: 0.7118850792790351
+At round 9 training accuracy: 0.7109410467604903
+At round 9 training loss: 1.1104343763677456
+gradient difference: 45.938290307013226
+At round 10 accuracy: 0.7345168722049058
+At round 10 training accuracy: 0.7374667617874051
+At round 10 training loss: 1.0160643336433746
+gradient difference: 42.12520993958931
+At round 11 accuracy: 0.7112074806884402
+At round 11 training accuracy: 0.7124813541734224
+At round 11 training loss: 1.0173683628283827
+gradient difference: 42.22303559634973
+At round 12 accuracy: 0.7144599539232959
+At round 12 training accuracy: 0.7142972955444581
+At round 12 training loss: 0.9857611769370721
+gradient difference: 41.41479026332104
+At round 13 accuracy: 0.722726656728554
+At round 13 training accuracy: 0.7224041766651533
+At round 13 training loss: 0.9547807056841197
+gradient difference: 40.3011259418306
+At round 14 accuracy: 0.7154085919501287
+At round 14 training accuracy: 0.7163240158246319
+At round 14 training loss: 0.9652940280674125
+gradient difference: 40.512748230760714
+At round 15 accuracy: 0.742648055292045
+At round 15 training accuracy: 0.7404176665153382
+At round 15 training loss: 0.9024761440926403
+gradient difference: 37.95080334186498
+At round 16 accuracy: 0.7459005285269007
+At round 16 training accuracy: 0.7429632271872365
+At round 16 training loss: 0.8867000301623246
+gradient difference: 37.61017602969324
+At round 17 accuracy: 0.7674481637078195
+At round 17 training accuracy: 0.7690835981581166
+At round 17 training loss: 0.8221409428357108
+gradient difference: 35.10022557259426
+At round 18 accuracy: 0.7852012467814067
+At round 18 training accuracy: 0.7851190090148518
+At round 18 training loss: 0.7745506999456927
+gradient difference: 33.79589046013207
+At round 19 accuracy: 0.7872340425531915
+At round 19 training accuracy: 0.7848109475322654
+At round 19 training loss: 0.7453012241468455
+gradient difference: 32.625642455980724
+At round 20 accuracy: 0.7992952974657813
+At round 20 training accuracy: 0.7961119398145146
+At round 20 training loss: 0.7188504999640604
+gradient difference: 31.481270909853485
+At round 21 accuracy: 0.8097303157609432
+At round 21 training accuracy: 0.806715740320384
+At round 21 training loss: 0.6895523875614971
+gradient difference: 30.48441549321719
+At round 22 accuracy: 0.8109499932240141
+At round 22 training accuracy: 0.8088721706984888
+At round 22 training loss: 0.6859548257685469
+gradient difference: 30.262508174992746
+At round 23 accuracy: 0.8146090256132267
+At round 23 training accuracy: 0.8094720799014203
+At round 23 training loss: 0.6830041903573097
+gradient difference: 30.0349365148018
+At round 24 accuracy: 0.8189456565930343
+At round 24 training accuracy: 0.8149199040145275
+At round 24 training loss: 0.668507483677482
+gradient difference: 29.984610107840826
+At round 25 accuracy: 0.8295161946063152
+At round 25 training accuracy: 0.8269505155976393
+At round 25 training loss: 0.6409437326943075
+gradient difference: 27.87093487899444
+At round 26 accuracy: 0.8062068030898496
+At round 26 training accuracy: 0.8046728062779688
+At round 26 training loss: 0.670973876475968
+gradient difference: 29.831080179526918
+At round 27 accuracy: 0.812305190405204
+At round 27 training accuracy: 0.812406770867112
+At round 27 training loss: 0.6571646431365905
+gradient difference: 29.38233821120733
+At round 28 accuracy: 0.8128472692776799
+At round 28 training accuracy: 0.8128121149231468
+At round 28 training loss: 0.6557739461874282
+gradient difference: 29.03878846163847
+At round 29 accuracy: 0.812576229841442
+At round 29 training accuracy: 0.8115312277060769
+At round 29 training loss: 0.6642782257748917
+gradient difference: 29.453215491948136
+At round 30 accuracy: 0.8198942946198672
+At round 30 training accuracy: 0.8182437252740126
+At round 30 training loss: 0.6501438071578838
+gradient difference: 29.133057251304038
+At round 31 accuracy: 0.8269413199620544
+At round 31 training accuracy: 0.824242817303327
+At round 31 training loss: 0.6330231298953517
+gradient difference: 28.106696800386622
+At round 32 accuracy: 0.8266702805258165
+At round 32 training accuracy: 0.824988650366431
+At round 32 training loss: 0.6252995503789591
+gradient difference: 27.696443035208123
+At round 33 accuracy: 0.8411708903645481
+At round 33 training accuracy: 0.8384622867890266
+At round 33 training loss: 0.5990549196167883
+gradient difference: 26.425989381208186
+At round 34 accuracy: 0.8324976284049329
+At round 34 training accuracy: 0.8327712562422984
+At round 34 training loss: 0.5972350871040514
+gradient difference: 26.348722535247234
+At round 35 accuracy: 0.8432036861363328
+At round 35 training accuracy: 0.8417861080485116
+At round 35 training loss: 0.5734966545028652
+gradient difference: 25.320145637167276
+At round 36 accuracy: 0.8445588833175227
+At round 36 training accuracy: 0.8404079382579934
+At round 36 training loss: 0.583807546762762
+gradient difference: 25.83807023725962
+At round 37 accuracy: 0.8255861227808646
+At round 37 training accuracy: 0.82299435761074
+At round 37 training loss: 0.6024894992680728
+gradient difference: 26.730539190133314
+At round 38 accuracy: 0.8570266973844695
+At round 38 training accuracy: 0.8558920811985213
+At round 38 training loss: 0.5498660887963067
+gradient difference: 23.48776464598574
+At round 39 accuracy: 0.8699010706057732
+At round 39 training accuracy: 0.8668687982359427
+At round 39 training loss: 0.5149147078311295
+gradient difference: 22.29121933662839
+At round 40 accuracy: 0.8667841170890365
+At round 40 training accuracy: 0.862604578766457
+At round 40 training loss: 0.5233602394368054
+gradient difference: 22.70434968564947
+At round 41 accuracy: 0.861363328364277
+At round 41 training accuracy: 0.8591186198845581
+At round 41 training loss: 0.5259202215001514
+gradient difference: 22.790177575280374
+At round 42 accuracy: 0.8680037945521073
+At round 42 training accuracy: 0.8627829301511123
+At round 42 training loss: 0.5150927801350906
+gradient difference: 22.443769987202906
+At round 43 accuracy: 0.8678682748339883
+At round 43 training accuracy: 0.8633666255918023
+At round 43 training loss: 0.5127673242433823
+gradient difference: 22.2066158060413
+At round 44 accuracy: 0.8690879522970593
+At round 44 training accuracy: 0.8627667163888709
+At round 44 training loss: 0.5129409226183554
+gradient difference: 22.401450857283688
+At round 45 accuracy: 0.8686813931427023
+At round 45 training accuracy: 0.8629612815357676
+At round 45 training loss: 0.5104486302854566
+gradient difference: 22.48315698909368
+At round 46 accuracy: 0.8670551565252744
+At round 46 training accuracy: 0.8630099228224918
+At round 46 training loss: 0.5074485187900819
+gradient difference: 22.357792454052714
+At round 47 accuracy: 0.8526900664046618
+At round 47 training accuracy: 0.8527952526104157
+At round 47 training loss: 0.5258025904674412
+gradient difference: 23.04396467552579
+At round 48 accuracy: 0.8505217509147581
+At round 48 training accuracy: 0.8522601984564498
+At round 48 training loss: 0.5285342575093593
+gradient difference: 23.25835718241476
+At round 49 accuracy: 0.8572977368207074
+At round 49 training accuracy: 0.8597023153252481
+At round 49 training loss: 0.5164116402355672
+gradient difference: 22.762659827946546
+At round 50 accuracy: 0.8619054072367529
+At round 50 training accuracy: 0.8640800311304235
+At round 50 training loss: 0.5011746525819188
+gradient difference: 22.219372831620547
+At round 51 accuracy: 0.8605502100555631
+At round 51 training accuracy: 0.861566897983008
+At round 51 training loss: 0.5015895709612127
+gradient difference: 22.349004585985117
+At round 52 accuracy: 0.8620409269548719
+At round 52 training accuracy: 0.8631396329204228
+At round 52 training loss: 0.4987977558452902
+gradient difference: 22.362089068296928
+At round 53 accuracy: 0.8671906762433934
+At round 53 training accuracy: 0.8672741422919774
+At round 53 training loss: 0.4891918785307742
+gradient difference: 21.790090658078615
+At round 54 accuracy: 0.8646158015991326
+At round 54 training accuracy: 0.8644367338997341
+At round 54 training loss: 0.4933605355594934
+gradient difference: 21.939447541313648
+At round 55 accuracy: 0.8762704973573655
+At round 55 training accuracy: 0.8760133601400869
+At round 55 training loss: 0.4681714481561608
+gradient difference: 20.503278574447958
+At round 56 accuracy: 0.8754573790486516
+At round 56 training accuracy: 0.8749756793566379
+At round 56 training loss: 0.4666979091293417
+gradient difference: 20.215496873053016
+At round 57 accuracy: 0.8774901748204363
+At round 57 training accuracy: 0.8760944289512939
+At round 57 training loss: 0.46202263513974867
+gradient difference: 20.08796634352644
+At round 58 accuracy: 0.8693589917332972
+At round 58 training accuracy: 0.8703385433556002
+At round 58 training loss: 0.47084991243381663
+gradient difference: 20.28522966967759
+At round 59 accuracy: 0.8674617156796314
+At round 59 training accuracy: 0.8695440690057721
+At round 59 training loss: 0.47297314581132005
+gradient difference: 20.51670026732097
+At round 60 accuracy: 0.8376473776934544
+At round 60 training accuracy: 0.8400350217264414
+At round 60 training loss: 0.5177010186972103
+gradient difference: 22.64144141845602
+At round 61 accuracy: 0.8444233635994037
+At round 61 training accuracy: 0.846325961476101
+At round 61 training loss: 0.5017260241650982
+gradient difference: 22.188233663954133
+At round 62 accuracy: 0.8632606044179428
+At round 62 training accuracy: 0.8639665347947337
+At round 62 training loss: 0.46868969811480177
+gradient difference: 20.58990845054471
+At round 63 accuracy: 0.8646158015991326
+At round 63 training accuracy: 0.8685712432712887
+At round 63 training loss: 0.45825959310504305
+gradient difference: 20.35620097944455
+At round 64 accuracy: 0.8689524325789403
+At round 64 training accuracy: 0.869625137816979
+At round 64 training loss: 0.45528867114910315
+gradient difference: 20.31526264275316
+At round 65 accuracy: 0.8696300311695352
+At round 65 training accuracy: 0.8704033984045658
+At round 65 training loss: 0.4554820954199568
+gradient difference: 20.07487529360424
+At round 66 accuracy: 0.8776256945385553
+At round 66 training accuracy: 0.877634736364226
+At round 66 training loss: 0.4417179614471961
+gradient difference: 19.28963955701712
+At round 67 accuracy: 0.8758639382030086
+At round 67 training accuracy: 0.8763538491471561
+At round 67 training loss: 0.4423452578791245
+gradient difference: 19.270074315371343
+At round 68 accuracy: 0.8747797804580566
+At round 68 training accuracy: 0.8746838316362929
+At round 68 training loss: 0.445964566031904
+gradient difference: 19.785220804382256
+At round 69 accuracy: 0.8751863396124137
+At round 69 training accuracy: 0.8768564757766392
+At round 69 training loss: 0.44573866696697884
+gradient difference: 19.68683954592045
+At round 70 accuracy: 0.8791164114378642
+At round 70 training accuracy: 0.8806829236656074
+At round 70 training loss: 0.4371959822553431
+gradient difference: 19.331370181993538
+At round 71 accuracy: 0.8822333649546009
+At round 71 training accuracy: 0.8826772164212984
+At round 71 training loss: 0.4303600060317973
+gradient difference: 19.143770642668926
+At round 72 accuracy: 0.8854858381894566
+At round 72 training accuracy: 0.8847201504637136
+At round 72 training loss: 0.4305027895975198
+gradient difference: 19.124987683336425
+At round 73 accuracy: 0.8849437593169807
+At round 73 training accuracy: 0.8831798430507815
+At round 73 training loss: 0.4358043888652274
+gradient difference: 19.364130478667946
+At round 74 accuracy: 0.8837240818539097
+At round 74 training accuracy: 0.879920876840262
+At round 74 training loss: 0.44219392728611584
+gradient difference: 19.72089295276549
+At round 75 accuracy: 0.8868410353706464
+At round 75 training accuracy: 0.8845742266035411
+At round 75 training loss: 0.4318151300941785
+gradient difference: 18.984062875938633
+At round 76 accuracy: 0.8890093508605502
+At round 76 training accuracy: 0.8864712367857838
+At round 76 training loss: 0.422159171758175
+gradient difference: 18.540666561264796
+At round 77 accuracy: 0.8891448705786692
+At round 77 training accuracy: 0.8869252221285427
+At round 77 training loss: 0.4193718045061679
+gradient difference: 18.357257722962043
+At round 78 accuracy: 0.8856213579075756
+At round 78 training accuracy: 0.8844931577923342
+At round 78 training loss: 0.42030341730956394
+gradient difference: 18.400430608199528
+At round 79 accuracy: 0.8880607128337173
+At round 79 training accuracy: 0.886146961540956
+At round 79 training loss: 0.4145239988530137
+gradient difference: 18.249859953090475
+At round 80 accuracy: 0.8867055156525274
+At round 80 training accuracy: 0.8865685193592321
+At round 80 training loss: 0.41531501637522994
+gradient difference: 18.309887521853362
+At round 81 accuracy: 0.8899579888873831
+At round 81 training accuracy: 0.8891465075556132
+At round 81 training loss: 0.41095911921676953
+gradient difference: 17.994320757509172
+At round 82 accuracy: 0.890229028323621
+At round 82 training accuracy: 0.8893248589402685
+At round 82 training loss: 0.4093804435169491
+gradient difference: 17.934085549655865
+At round 83 accuracy: 0.8895514297330261
+At round 83 training accuracy: 0.8899085543809585
+At round 83 training loss: 0.40605899103753434
+gradient difference: 17.859158489592147
+At round 84 accuracy: 0.8884672719880743
+At round 84 training accuracy: 0.8899734094299241
+At round 84 training loss: 0.40361145421531847
+gradient difference: 17.775027389895744
+At round 85 accuracy: 0.8868410353706464
+At round 85 training accuracy: 0.8874602762825086
+At round 85 training loss: 0.40885531238098854
+gradient difference: 17.829473593032372
+At round 86 accuracy: 0.8873831142431223
+At round 86 training accuracy: 0.8884817433037162
+At round 86 training loss: 0.40821727911068734
+gradient difference: 17.96269624945831
+At round 87 accuracy: 0.8854858381894566
+At round 87 training accuracy: 0.8868927946040599
+At round 87 training loss: 0.41024089162915944
+gradient difference: 18.06349577575012
+At round 88 accuracy: 0.8876541536793603
+At round 88 training accuracy: 0.8867144432194046
+At round 88 training loss: 0.411052256045588
+gradient difference: 18.104133352141417
+At round 89 accuracy: 0.8867055156525274
+At round 89 training accuracy: 0.8861145340164732
+At round 89 training loss: 0.412501177894554
+gradient difference: 18.11820775366688
+At round 90 accuracy: 0.8867055156525274
+At round 90 training accuracy: 0.8880601854854401
+At round 90 training loss: 0.41128068967321957
+gradient difference: 18.098792033368255
+At round 91 accuracy: 0.8861634367800515
+At round 91 training accuracy: 0.8884168882547506
+At round 91 training loss: 0.4097263212885017
+gradient difference: 18.02983874195807
+At round 92 accuracy: 0.8861634367800515
+At round 92 training accuracy: 0.8878818341007847
+At round 92 training loss: 0.40900034638539334
+gradient difference: 17.948016513260697
+At round 93 accuracy: 0.8783032931291503
+At round 93 training accuracy: 0.8798235942668137
+At round 93 training loss: 0.4201063870601716
+gradient difference: 18.42492911639857
+At round 94 accuracy: 0.8835885621357907
+At round 94 training accuracy: 0.8852065633309553
+At round 94 training loss: 0.4120520948640709
+gradient difference: 18.127097603851944
+At round 95 accuracy: 0.8781677734110314
+At round 95 training accuracy: 0.8818665283092288
+At round 95 training loss: 0.4165359083275581
+gradient difference: 18.253418241348236
+At round 96 accuracy: 0.8765415367936035
+At round 96 training accuracy: 0.879629029119917
+At round 96 training loss: 0.4226483331812744
+gradient difference: 18.539603010933707
+At round 97 accuracy: 0.8738311424312237
+At round 97 training accuracy: 0.8762565665737078
+At round 97 training loss: 0.4294308139600415
+gradient difference: 18.656965009129163
+At round 98 accuracy: 0.8670551565252744
+At round 98 training accuracy: 0.8691711524742202
+At round 98 training loss: 0.44033021228546804
+gradient difference: 19.14596783826099
+At round 99 accuracy: 0.8667841170890365
+At round 99 training accuracy: 0.8685063882223231
+At round 99 training loss: 0.44305869593025965
+gradient difference: 19.137996023065124
+At round 100 accuracy: 0.8783032931291503
+At round 100 training accuracy: 0.8803424346585381
+At round 100 training loss: 0.4153473399102599
+gradient difference: 18.192557599147086
+At round 101 accuracy: 0.8792519311559832
+At round 101 training accuracy: 0.883325766910954
+At round 101 training loss: 0.4134528631435885
+gradient difference: 18.23325989775318
+At round 102 accuracy: 0.8769480959479604
+At round 102 training accuracy: 0.8803262208962968
+At round 102 training loss: 0.4178825069679854
+gradient difference: 18.393274210803057
+At round 103 accuracy: 0.8797940100284591
+At round 103 training accuracy: 0.8854659835268176
+At round 103 training loss: 0.41449189201589043
+gradient difference: 18.159465274594737
+At round 104 accuracy: 0.8789808917197452
+At round 104 training accuracy: 0.884282378883196
+At round 104 training loss: 0.41331109238775315
+gradient difference: 18.14207723749836
+At round 105 accuracy: 0.881691286082125
+At round 105 training accuracy: 0.8868279395550943
+At round 105 training loss: 0.41093956566204265
+gradient difference: 18.273431425310086
+At round 106 accuracy: 0.8839951212901477
+At round 106 training accuracy: 0.8887411634995784
+At round 106 training loss: 0.4060455566770206
+gradient difference: 18.121974973316984
+At round 107 accuracy: 0.8853503184713376
+At round 107 training accuracy: 0.8900220507166483
+At round 107 training loss: 0.39887892262642544
+gradient difference: 17.658669225163827
+At round 108 accuracy: 0.8848082395988617
+At round 108 training accuracy: 0.8892113626045788
+At round 108 training loss: 0.40169951964505085
+gradient difference: 17.850962253593135
+At round 109 accuracy: 0.8864344762162895
+At round 109 training accuracy: 0.8899896231921655
+At round 109 training loss: 0.39975117093027757
+gradient difference: 17.886825868834457
+At round 110 accuracy: 0.8879251931155984
+At round 110 training accuracy: 0.8903787534859589
+At round 110 training loss: 0.38543990888545915
+gradient difference: 17.452450951959257
+At round 111 accuracy: 0.891448705786692
+At round 111 training accuracy: 0.8937998573188922
+At round 111 training loss: 0.379989984813297
+gradient difference: 17.197517889013163
+At round 112 accuracy: 0.8932104621222388
+At round 112 training accuracy: 0.896280562941825
+At round 112 training loss: 0.3753022922895019
+gradient difference: 16.88201134959704
+At round 113 accuracy: 0.8933459818403577
+At round 113 training accuracy: 0.8965886244244115
+At round 113 training loss: 0.3762029514439214
+gradient difference: 16.86329219981218
+At round 114 accuracy: 0.8918552649410489
+At round 114 training accuracy: 0.8951455995849277
+At round 114 training loss: 0.3819858944074926
+gradient difference: 17.131604984515423
+At round 115 accuracy: 0.8949722184577856
+At round 115 training accuracy: 0.8975290226344121
+At round 115 training loss: 0.376926094968092
+gradient difference: 16.9432833582784
+At round 116 accuracy: 0.8932104621222388
+At round 116 training accuracy: 0.8959238601725145
+At round 116 training loss: 0.3797231868068407
+gradient difference: 17.105966156441703
+At round 117 accuracy: 0.8926683832497628
+At round 117 training accuracy: 0.8948375381023412
+At round 117 training loss: 0.38197744717070453
+gradient difference: 17.284042396775224
+At round 118 accuracy: 0.8944301395853097
+At round 118 training accuracy: 0.896653479473377
+At round 118 training loss: 0.37840360539597306
+gradient difference: 17.235501806290667
+At round 119 accuracy: 0.8952432578940236
+At round 119 training accuracy: 0.8982748556975161
+At round 119 training loss: 0.3767270907778149
+gradient difference: 17.14943983276273
+At round 120 accuracy: 0.8921263043772869
+At round 120 training accuracy: 0.8937025747454439
+At round 120 training loss: 0.38479919025324255
+gradient difference: 17.314002563830034
+At round 121 accuracy: 0.8918552649410489
+At round 121 training accuracy: 0.8926162526752708
+At round 121 training loss: 0.39021963295034234
+gradient difference: 17.465969916789966
+At round 122 accuracy: 0.891177666350454
+At round 122 training accuracy: 0.8920325572345807
+At round 122 training loss: 0.3785560012437337
+gradient difference: 17.13176915870604
+At round 123 accuracy: 0.89036454804174
+At round 123 training accuracy: 0.8920001297100979
+At round 123 training loss: 0.37944932059577624
+gradient difference: 17.10514554804089
+At round 124 accuracy: 0.8900935086055021
+At round 124 training accuracy: 0.8926811077242364
+At round 124 training loss: 0.3785780039551904
+gradient difference: 17.15156570619244
+At round 125 accuracy: 0.8928039029678818
+At round 125 training accuracy: 0.894205201374927
+At round 125 training loss: 0.37603401446850776
+gradient difference: 17.142884037290106
+At round 126 accuracy: 0.8929394226860008
+At round 126 training accuracy: 0.8960859977949284
+At round 126 training loss: 0.36985878907188163
+gradient difference: 16.91640851011138
+At round 127 accuracy: 0.8937525409947147
+At round 127 training accuracy: 0.8959238601725145
+At round 127 training loss: 0.37153338861557916
+gradient difference: 17.096528970988775
+At round 128 accuracy: 0.8884672719880743
+At round 128 training accuracy: 0.888222323107854
+At round 128 training loss: 0.380395444228301
+gradient difference: 17.546326074168615
+At round 129 accuracy: 0.8896869494511451
+At round 129 training accuracy: 0.8896004928983722
+At round 129 training loss: 0.381017912811811
+gradient difference: 17.579869703027477
+At round 130 accuracy: 0.8940235804309528
+At round 130 training accuracy: 0.8950969582982035
+At round 130 training loss: 0.3725236301205625
+gradient difference: 17.276125080617994
+At round 131 accuracy: 0.8961918959208565
+At round 131 training accuracy: 0.8964751280887218
+At round 131 training loss: 0.36936557449183466
+gradient difference: 17.06835254032793
+At round 132 accuracy: 0.8972760536658084
+At round 132 training accuracy: 0.8979343666904469
+At round 132 training loss: 0.3662254612568392
+gradient difference: 16.684786582625126
+At round 133 accuracy: 0.8967339747933324
+At round 133 training accuracy: 0.8967831895713081
+At round 133 training loss: 0.3695190881608895
+gradient difference: 16.854807939185033
+At round 134 accuracy: 0.8972760536658084
+At round 134 training accuracy: 0.8980316492638952
+At round 134 training loss: 0.3661813920363059
+gradient difference: 16.640847900852368
+At round 135 accuracy: 0.8963274156389754
+At round 135 training accuracy: 0.8960859977949284
+At round 135 training loss: 0.3716870493776997
+gradient difference: 16.963346912880215
+At round 136 accuracy: 0.8953787776121426
+At round 136 training accuracy: 0.8952104546338933
+At round 136 training loss: 0.36971278851642836
+gradient difference: 16.968405133823996
+At round 137 accuracy: 0.8940235804309528
+At round 137 training accuracy: 0.8932161618782022
+At round 137 training loss: 0.3764910673518107
+gradient difference: 17.34809748349128
+At round 138 accuracy: 0.8944301395853097
+At round 138 training accuracy: 0.8961832803683767
+At round 138 training loss: 0.37011787775764776
+gradient difference: 17.088360341052983
+At round 139 accuracy: 0.8991733297194742
+At round 139 training accuracy: 0.9002529346909657
+At round 139 training loss: 0.3630961016844541
+gradient difference: 16.748674987767053
+At round 140 accuracy: 0.8982246916926413
+At round 140 training accuracy: 0.8999448732083792
+At round 140 training loss: 0.36320939064609353
+gradient difference: 16.90467050514252
+At round 141 accuracy: 0.8980891719745223
+At round 141 training accuracy: 0.8989882612361373
+At round 141 training loss: 0.3626105194549317
+gradient difference: 16.884550621277935
+At round 142 accuracy: 0.8961918959208565
+At round 142 training accuracy: 0.8968156170957909
+At round 142 training loss: 0.3713708344876379
+gradient difference: 17.301240250464303
+At round 143 accuracy: 0.8945656593034287
+At round 143 training accuracy: 0.8975938776833776
+At round 143 training loss: 0.37167478277906024
+gradient difference: 17.328555651325203
+At round 144 accuracy: 0.8967339747933324
+At round 144 training accuracy: 0.8985018483688956
+At round 144 training loss: 0.3672528342528754
+gradient difference: 17.187089544741593
+At round 145 accuracy: 0.8978181325382844
+At round 145 training accuracy: 0.8991990401452753
+At round 145 training loss: 0.36758458697153057
+gradient difference: 17.170653440204717
+At round 146 accuracy: 0.8972760536658084
+At round 146 training accuracy: 0.9005934236980349
+At round 146 training loss: 0.3645370697156689
+gradient difference: 17.024666801333133
+At round 147 accuracy: 0.8972760536658084
+At round 147 training accuracy: 0.8989071924249303
+At round 147 training loss: 0.37167223447818304
+gradient difference: 17.303579263596966
+At round 148 accuracy: 0.8978181325382844
+At round 148 training accuracy: 0.8991179713340683
+At round 148 training loss: 0.3696189832820973
+gradient difference: 17.213766275085906
+At round 149 accuracy: 0.8934815015584767
+At round 149 training accuracy: 0.8963454179907906
+At round 149 training loss: 0.37197186383153275
+gradient difference: 17.26120335672767
+At round 150 accuracy: 0.8940235804309528
+At round 150 training accuracy: 0.8949348206757896
+At round 150 training loss: 0.3735786576356276
+gradient difference: 17.377831644786568
+At round 151 accuracy: 0.8948366987396666
+At round 151 training accuracy: 0.8937998573188922
+At round 151 training loss: 0.3773165406046236
+gradient difference: 17.56995004274215
+At round 152 accuracy: 0.8940235804309528
+At round 152 training accuracy: 0.8953563784940658
+At round 152 training loss: 0.3766517764724413
+gradient difference: 17.693031168417583
+At round 153 accuracy: 0.8926683832497628
+At round 153 training accuracy: 0.8930864517802711
+At round 153 training loss: 0.3766046825818291
+gradient difference: 17.699340180317385
+At round 154 accuracy: 0.8928039029678818
+At round 154 training accuracy: 0.8933782995006161
+At round 154 training loss: 0.37532529776897305
+gradient difference: 17.524255612941534
+At round 155 accuracy: 0.890771107196097
+At round 155 training accuracy: 0.8910597315000973
+At round 155 training loss: 0.38227780766526204
+gradient difference: 17.646574046408258
+At round 156 accuracy: 0.8918552649410489
+At round 156 training accuracy: 0.8921460535702704
+At round 156 training loss: 0.3785481582143196
+gradient difference: 17.53255875107335
+At round 157 accuracy: 0.890635587477978
+At round 157 training accuracy: 0.8896977754718205
+At round 157 training loss: 0.38403621730316595
+gradient difference: 17.637213232863125
+At round 158 accuracy: 0.890635587477978
+At round 158 training accuracy: 0.8913029379337182
+At round 158 training loss: 0.37699169480239175
+gradient difference: 17.514844820812375
+At round 159 accuracy: 0.89171974522293
+At round 159 training accuracy: 0.8938971398923407
+At round 159 training loss: 0.3705957228456115
+gradient difference: 17.33551207109512
+At round 160 accuracy: 0.8952432578940236
+At round 160 training accuracy: 0.8975776639211362
+At round 160 training loss: 0.3626289107057369
+gradient difference: 17.062886207518005
+At round 161 accuracy: 0.8956498170483805
+At round 161 training accuracy: 0.8992638951942409
+At round 161 training loss: 0.35816915140975475
+gradient difference: 16.73590027511747
+At round 162 accuracy: 0.8945656593034287
+At round 162 training accuracy: 0.8989234061871717
+At round 162 training loss: 0.35921290450004556
+gradient difference: 14.100801812077455
+At round 163 accuracy: 0.8978181325382844
+At round 163 training accuracy: 0.901096050327518
+At round 163 training loss: 0.35470109983248965
+gradient difference: 13.72251359882351
+At round 164 accuracy: 0.8940235804309528
+At round 164 training accuracy: 0.8983072832219988
+At round 164 training loss: 0.3593325482592181
+gradient difference: 13.832891480446175
+At round 165 accuracy: 0.8941591001490717
+At round 165 training accuracy: 0.8987774823269992
+At round 165 training loss: 0.3578021238875764
+gradient difference: 13.70061249419858
+At round 166 accuracy: 0.8919907846591679
+At round 166 training accuracy: 0.8970588235294118
+At round 166 training loss: 0.36163929542651635
+gradient difference: 13.642273243369234
+At round 167 accuracy: 0.8919907846591679
+At round 167 training accuracy: 0.8949186069135482
+At round 167 training loss: 0.364599722826422
+gradient difference: 13.4958218053622
+At round 168 accuracy: 0.8925328635316438
+At round 168 training accuracy: 0.897318243725274
+At round 168 training loss: 0.35998395423417134
+gradient difference: 13.47426868258141
+At round 169 accuracy: 0.8955142973302616
+At round 169 training accuracy: 0.899685453012517
+At round 169 training loss: 0.35461509970325245
+gradient difference: 13.335438973702445
+At round 170 accuracy: 0.8956498170483805
+At round 170 training accuracy: 0.9000745833063104
+At round 170 training loss: 0.35392502457583813
+gradient difference: 13.274526366268924
+At round 171 accuracy: 0.900257487464426
+At round 171 training accuracy: 0.9040469550554511
+At round 171 training loss: 0.3458221897461611
+gradient difference: 13.0245730010503
+At round 172 accuracy: 0.90107060577314
+At round 172 training accuracy: 0.9042415202023477
+At round 172 training loss: 0.34657849645484545
+gradient difference: 13.07654165698029
+At round 173 accuracy: 0.8989022902832362
+At round 173 training accuracy: 0.9032200531811402
+At round 173 training loss: 0.34821575604954436
+gradient difference: 13.138180716128032
+At round 174 accuracy: 0.8983602114107603
+At round 174 training accuracy: 0.903090343083209
+At round 174 training loss: 0.3483451623835319
+gradient difference: 13.12211095625118
+At round 175 accuracy: 0.891177666350454
+At round 175 training accuracy: 0.8957455087878591
+At round 175 training loss: 0.35956155549164887
+gradient difference: 13.512856935961878
+At round 176 accuracy: 0.8972760536658084
+At round 176 training accuracy: 0.9021499448732084
+At round 176 training loss: 0.34538962868646844
+gradient difference: 13.156016492948293
+At round 177 accuracy: 0.8997154085919501
+At round 177 training accuracy: 0.9035929697126921
+At round 177 training loss: 0.34528397088717594
+gradient difference: 13.022895619527114
+At round 178 accuracy: 0.8984957311288793
+At round 178 training accuracy: 0.9030579155587263
+At round 178 training loss: 0.3458270790885666
+gradient difference: 13.064610376862696
+At round 179 accuracy: 0.8972760536658084
+At round 179 training accuracy: 0.9018256696283806
+At round 179 training loss: 0.34617542659878203
+gradient difference: 13.15141544310936
+At round 180 accuracy: 0.8892803902967882
+At round 180 training accuracy: 0.8915623581295804
+At round 180 training loss: 0.3638199317652936
+gradient difference: 14.403776366779805
+At round 181 accuracy: 0.8898224691692641
+At round 181 training accuracy: 0.8931675205914781
+At round 181 training loss: 0.3604850625160305
+gradient difference: 14.210047893170245
+At round 182 accuracy: 0.8896869494511451
+At round 182 training accuracy: 0.8924541150528569
+At round 182 training loss: 0.3601857609911263
+gradient difference: 14.153779553580382
+At round 183 accuracy: 0.8929394226860008
+At round 183 training accuracy: 0.894205201374927
+At round 183 training loss: 0.35685011094587776
+gradient difference: 13.96828979432502
+At round 184 accuracy: 0.89036454804174
+At round 184 training accuracy: 0.8937674297944095
+At round 184 training loss: 0.35732404128683676
+gradient difference: 14.027416555971904
+At round 185 accuracy: 0.89171974522293
+At round 185 training accuracy: 0.8955995849276867
+At round 185 training loss: 0.35402870978019096
+gradient difference: 13.829941947498453
+At round 186 accuracy: 0.8892803902967882
+At round 186 training accuracy: 0.8913840067449251
+At round 186 training loss: 0.36026401870522623
+gradient difference: 14.253555459844833
+At round 187 accuracy: 0.8919907846591679
+At round 187 training accuracy: 0.8944646215707893
+At round 187 training loss: 0.3545265314270098
+gradient difference: 13.931506648967957
+At round 188 accuracy: 0.8976826128201654
+At round 188 training accuracy: 0.8990369025228614
+At round 188 training loss: 0.34683125035464496
+gradient difference: 13.35246261993312
+At round 189 accuracy: 0.890229028323621
+At round 189 training accuracy: 0.8908975938776834
+At round 189 training loss: 0.35824980000708656
+gradient difference: 14.343748973833124
+At round 190 accuracy: 0.8960563762027375
+At round 190 training accuracy: 0.8990531162851028
+At round 190 training loss: 0.3445705367862945
+gradient difference: 13.23531321033259
+At round 191 accuracy: 0.901341645209378
+At round 191 training accuracy: 0.901971593488553
+At round 191 training loss: 0.33985413509126355
+gradient difference: 12.949080687725385
+At round 192 accuracy: 0.8994443691557121
+At round 192 training accuracy: 0.9034470458525197
+At round 192 training loss: 0.33940061430381996
+gradient difference: 12.782059731622315
+At round 193 accuracy: 0.9026968423905678
+At round 193 training accuracy: 0.9047279330695894
+At round 193 training loss: 0.3372409912942463
+gradient difference: 12.569615159266577
+At round 194 accuracy: 0.9026968423905678
+At round 194 training accuracy: 0.904663078020624
+At round 194 training loss: 0.3378467235166783
+gradient difference: 12.513242970959862
+At round 195 accuracy: 0.9003930071825451
+At round 195 training accuracy: 0.9027012127894156
+At round 195 training loss: 0.34128558908213674
+gradient difference: 12.583102235817247
+At round 196 accuracy: 0.901477164927497
+At round 196 training accuracy: 0.902960632985278
+At round 196 training loss: 0.3405309098784664
+gradient difference: 12.56791784299846
+At round 197 accuracy: 0.9018837240818539
+At round 197 training accuracy: 0.9026687852649329
+At round 197 training loss: 0.33957776355370684
+gradient difference: 12.530884214929918
+At round 198 accuracy: 0.901341645209378
+At round 198 training accuracy: 0.9023282962578637
+At round 198 training loss: 0.34136589951702084
+gradient difference: 12.543352595819066
+At round 199 accuracy: 0.900121967746307
+At round 199 training accuracy: 0.9031876256566573
+At round 199 training loss: 0.34083173394007366
+gradient difference: 12.49895485187739
+At round 200 accuracy: 0.900935086055021
+At round 200 training accuracy: 0.9047279330695894
